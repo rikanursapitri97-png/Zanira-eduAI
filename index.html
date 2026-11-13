@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6652c7" />
+  <title>Zanira EduAI — Prompt Assistant Media Belajar Anak</title>
+  <style>
+    :root{--purple:#6652c7;--purple-dark:#49369f;--lavender:#f0edff;--ink:#272541;--muted:#77758d;--line:#e8e6f2;--bg:#f8f7fc;--white:#fff;--shadow:0 10px 30px rgba(54,43,110,.08)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+    button,input,select,textarea{font:inherit} button{cursor:pointer}
+    .app{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}
+    aside{background:#fff;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow:auto}
+    .brand{display:flex;align-items:center;gap:10px;padding:0 8px 26px}.brand-mark{height:42px;width:42px;border-radius:14px;background:linear-gradient(135deg,#7968e7,#a69aff);display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 7px 18px #7968e744}
+    .brand strong{display:block;font-size:16px;letter-spacing:.2px}.brand small{color:var(--muted);font-size:11px}
+    .nav-label{font-size:10px;color:#a09db5;font-weight:800;letter-spacing:1.4px;padding:12px 10px 8px}
+    .nav-item{width:100%;border:0;background:transparent;display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:12px;text-align:left;color:#68657d;margin:2px 0;font-size:13px}
+    .nav-item .ico{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-size:16px;background:#f1efff}.nav-item.active{background:var(--lavender);color:var(--purple-dark);font-weight:750}.nav-item.active .ico{background:#ded8ff}
+    .side-note{margin:28px 4px 0;background:#faf5ff;border:1px solid #eee4ff;border-radius:16px;padding:14px;font-size:12px;color:#70658c;line-height:1.6}.side-note b{color:#5942aa}
+    main{min-width:0;padding:28px clamp(16px,3vw,42px) 44px;max-width:1500px;width:100%;margin:auto}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.eyebrow{font-size:11px;font-weight:800;color:var(--purple);letter-spacing:1.3px;text-transform:uppercase}.topbar h1{font-size:clamp(24px,3vw,34px);margin:6px 0 4px;letter-spacing:-.8px}.sub{color:var(--muted);font-size:14px;line-height:1.6}.profile{border:1px solid var(--line);background:#fff;border-radius:99px;padding:9px 13px;display:flex;gap:8px;align-items:center;font-size:12px;white-space:nowrap}.avatar{background:#e7e1ff;color:#5d49b6;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;font-weight:800}
+    .hero{background:linear-gradient(120deg,#5542b1,#8271e5 65%,#b1a6ff);border-radius:24px;padding:clamp(22px,4vw,38px);color:#fff;position:relative;overflow:hidden;margin-bottom:28px;box-shadow:0 15px 34px #6652c72b}.hero:after{content:"✦";position:absolute;right:8%;top:-42px;font-size:190px;color:#ffffff18;transform:rotate(12deg)}.hero-content{position:relative;z-index:1;max-width:680px}.hero .pill{display:inline-block;border:1px solid #ffffff65;background:#ffffff1e;padding:6px 10px;border-radius:99px;font-size:11px;margin-bottom:13px}.hero h2{font-size:clamp(24px,3vw,35px);line-height:1.15;margin:0 0 12px;letter-spacing:-.7px}.hero p{font-size:14px;line-height:1.7;color:#f2efff;margin:0 0 20px;max-width:570px}.hero button{background:#fff;color:#4d3ba7;border:0;border-radius:12px;padding:12px 16px;font-weight:800;font-size:13px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:26px 0 14px}.section-head h2{font-size:19px;margin:0 0 5px}.section-head p{margin:0;font-size:12px;color:var(--muted)}.count{font-size:11px;color:#8c89a2}
+    .tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.tool{border:1px solid var(--line);background:#fff;border-radius:18px;padding:18px 16px;text-align:left;min-height:150px;transition:.18s;box-shadow:0 2px 6px #2c215006}.tool:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#d7d0ff}.tool .tool-ico{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;font-size:22px;margin-bottom:14px}.tool b{font-size:13px;display:block;margin-bottom:6px}.tool small{color:var(--muted);font-size:11px;line-height:1.5;display:block}.purple .tool-ico{background:#eeeaff}.pink .tool-ico{background:#ffebf3}.teal .tool-ico{background:#e0f8f5}.orange .tool-ico{background:#fff0e5}.green .tool-ico{background:#e6f7e9}.blue .tool-ico{background:#e5f3ff}.yellow .tool-ico{background:#fff6d9}.peach .tool-ico{background:#ffe9e0}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:18px;margin-top:28px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 3px 10px #2c215006}.panel-title{display:flex;align-items:center;gap:12px;margin-bottom:20px}.panel-title .tool-ico{width:42px;height:42px;border-radius:13px;background:#eeeaff;display:grid;place-items:center;font-size:21px}.panel-title h2{margin:0 0 4px;font-size:18px}.panel-title p{margin:0;color:var(--muted);font-size:12px}
+    .field{margin:15px 0}.field label,.field-label{display:block;font-size:12px;font-weight:750;margin-bottom:8px}.field input,.field select,.field textarea{width:100%;border:1px solid #e3e0ee;border-radius:11px;padding:11px 12px;background:#fff;color:var(--ink);outline:none;font-size:13px}.field textarea{min-height:80px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#8d7be7;box-shadow:0 0 0 3px #8d7be71c}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.check{display:flex;align-items:center;gap:8px;border:1px solid #ebe8f3;border-radius:10px;padding:10px;font-size:12px;color:#5d5a73;line-height:1.35}.check input{width:15px;height:15px;accent-color:var(--purple);flex-shrink:0}.divider{height:1px;background:var(--line);margin:20px 0}.subheading{font-size:13px;font-weight:800;margin:0 0 12px}.btn{border:0;border-radius:11px;padding:12px 15px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn-primary{background:var(--purple);color:#fff}.btn-primary:hover{background:var(--purple-dark)}.btn-secondary{background:#f0edff;color:#5845b1}.btn-outline{background:#fff;border:1px solid var(--line);color:#5f5b76}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.actions .btn-primary{flex:1}.output{background:#fbfaff;border:1px solid #e9e4ff;border-radius:14px;min-height:280px;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.75;color:#48445e}.output.empty{display:grid;place-items:center;text-align:center;color:#9a96ae;white-space:normal}.empty-inner span{font-size:32px;display:block;margin-bottom:10px}.empty-inner b{display:block;color:#76718f;margin-bottom:5px}.hint{font-size:11px;line-height:1.6;color:var(--muted);margin:12px 0 0}.status{display:none;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.5;margin:12px 0}.status.show{display:block}.status.error{background:#fff0ef;color:#a43d35}.status.ok{background:#ecf9f0;color:#267445}.footer{margin-top:28px;text-align:center;font-size:11px;color:#aaa6ba}.mobile-menu{display:none}
+    @media(max-width:1050px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}.workspace{grid-template-columns:1fr}}
+    @media(max-width:700px){.app{display:block}aside{display:none;position:fixed;z-index:20;left:0;top:0;width:260px;box-shadow:0 0 0 100vmax #1f193b66}.aside-open aside{display:block}.mobile-menu{display:inline-grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:19px}.topbar{align-items:flex-start}.profile{display:none}main{padding:18px 14px 30px}.topbar{gap:10px;margin-bottom:20px}.topbar h1{font-size:25px}.hero{border-radius:19px}.tools{gap:10px}.tool{padding:14px;min-height:142px}.panel{padding:16px}.two{grid-template-columns:1fr}.checks{grid-template-columns:1fr 1fr}.section-head{align-items:start}.workspace{gap:13px}}
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">✦</div><div><strong>Zanira EduAI</strong><small>Prompt Assistant Edukasi</small></div></div>
+    <div class="nav-label">MENU UTAMA</div>
+    <button class="nav-item active" data-target="beranda"><span class="ico">⌂</span>Dashboard</button>
+    <button class="nav-item" data-tool="Media Belajar Interaktif"><span class="ico">🪄</span>Media Belajar Interaktif</button>
+    <button class="nav-item" data-tool="Game Edukasi"><span class="ico">🎮</span>Game Edukasi</button>
+    <button class="nav-item" data-tool="Video Animasi Edukasi"><span class="ico">🎬</span>Video Animasi Edukasi</button>
+    <button class="nav-item" data-tool="Buku Dongeng"><span class="ico">📚</span>Buku Dongeng</button>
+    <button class="nav-item" data-tool="Lembar Aktivitas"><span class="ico">✏️</span>Lembar Aktivitas</button>
+    <button class="nav-item" data-tool="Flashcard"><span class="ico">🃏</span>Flashcard</button>
+    <button class="nav-item" data-tool="Poster / Infografis"><span class="ico">🖼️</span>Poster / Infografis</button>
+    <button class="nav-item" data-tool="Prompt Gambar AI"><span class="ico">✨</span>Prompt Gambar AI</button>
+    <div class="nav-label">PREFERENSI</div>
+    <button class="nav-item" id="howBtn"><span class="ico">❔</span>Cara Menggunakan</button>
+    <div class="side-note"><b>✨ Ruang kreatif pendidik</b><br/>Bantu orang tua, guru, dan kreator membuat ide media belajar anak dengan lebih terarah.</div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div style="display:flex;gap:11px;align-items:flex-start"><button class="mobile-menu" id="menuBtn" aria-label="Buka menu">☰</button><div><div class="eyebrow">Ruang kreatif edukasi</div><h1>Dashboard Zanira EduAI</h1><div class="sub">Buat media belajar anak dengan bantuan AI, lebih praktis dan terstruktur.</div></div></div>
+      <div class="profile"><span class="avatar">Z</span><span><b>Zanira Digital</b><br/><span style="color:#88849f">EduAI Workspace</span></span></div>
+    </header>
+    <section class="hero" id="beranda">
+      <div class="hero-content"><span class="pill">✦ AI PROMPT ASSISTANT</span><h2>Ide belajar seru,<br/>dimulai dari sini.</h2><p>Pilih alat edukasi, isi kebutuhan pembelajaran, lalu buat prompt yang lebih jelas untuk mengembangkan media belajar anak.</p><button id="startBtn">Mulai Membuat Prompt &nbsp; →</button></div>
+    </section>
+    <div class="section-head"><div><h2>Pilih alat kreatifmu</h2><p>Setiap alat punya fokus yang berbeda. Pilih salah satu untuk mulai.</p></div><span class="count">8 TOOLS</span></div>
+    <section class="tools">
+      <button class="tool purple" data-tool="Media Belajar Interaktif"><span class="tool-ico">🪄</span><b>Media Belajar Interaktif</b><small>Materi, navigasi, kuis, dan halaman interaktif.</small></button>
+      <button class="tool pink" data-tool="Game Edukasi"><span class="tool-ico">🎮</span><b>Game Edukasi</b><small>Konsep permainan belajar sesuai usia anak.</small></button>
+      <button class="tool teal" data-tool="Video Animasi Edukasi"><span class="tool-ico">🎬</span><b>Video Animasi Edukasi</b><small>Naskah, adegan, karakter, dan dialog.</small></button>
+      <button class="tool orange" data-tool="Buku Dongeng"><span class="tool-ico">📚</span><b>Buku Dongeng</b><small>Cerita anak dengan pesan moral.</small></button>
+      <button class="tool green" data-tool="Lembar Aktivitas"><span class="tool-ico">✏️</span><b>Lembar Aktivitas</b><small>Worksheet, LKPD, dan kegiatan belajar.</small></button>
+      <button class="tool blue" data-tool="Flashcard"><span class="tool-ico">🃏</span><b>Flashcard</b><small>Kartu belajar visual dan ringkas.</small></button>
+      <button class="tool yellow" data-tool="Poster / Infografis"><span class="tool-ico">🖼️</span><b>Poster / Infografis</b><small>Materi visual yang mudah dipahami.</small></button>
+      <button class="tool peach" data-tool="Prompt Gambar AI"><span class="tool-ico">✨</span><b>Prompt Gambar AI</b><small>Prompt ilustrasi edukasi yang terarah.</small></button>
+    </section>
+    <div class="section-head" id="builder"><div><h2 id="builderHeading">Media Belajar Interaktif</h2><p>Isi formulir berikut agar prompt sesuai kebutuhanmu.</p></div></div>
+    <section class="workspace">
+      <div class="panel">
+        <div class="panel-title"><div class="tool-ico">🪄</div><div><h2>Atur kebutuhan media</h2><p>Bagian bertanda * sebaiknya diisi.</p></div></div>
+        <form id="promptForm">
+          <div class="field"><label for="topic">Topik / judul media belajar *</label><input id="topic" required placeholder="Contoh: Mengenal Huruf Hijaiyah"/></div>
+          <div class="two">
+            <div class="field"><label for="age">Target usia *</label><select id="age" required><option value="">Pilih usia</option><option>4–6 tahun (PAUD/TK)</option><option>7–9 tahun (SD Kelas Rendah)</option><option>10–12 tahun (SD Kelas Tinggi)</option><option>13–15 tahun (SMP)</option><option>16–18 tahun (SMA/SMK)</option><option>18+ tahun (Mahasiswa/Umum/Korporat)</option></select></div>
+            <div class="field"><label for="curriculum">Kurikulum</label><select id="curriculum"><option>Kurikulum Merdeka</option><option>Kurikulum Merdeka dengan pendekatan Pembelajaran Mendalam</option><option>Kurikulum 2013 (K13)</option><option>Kurikulum Cambridge</option><option>Kurikulum IB (International Baccalaureate)</option><option>Lainnya (tulis sendiri)</option></select></div>
+          </div>
+          <div class="field" id="customCurriculumWrap" hidden><label for="customCurriculum">Nama kurikulum / pendekatan</label><input id="customCurriculum" placeholder="Tulis kurikulum yang diinginkan"/></div>
+          <div class="two">
+            <div class="field"><label for="subject">Mata pelajaran / bidang</label><input id="subject" placeholder="Contoh: Pendidikan Agama Islam"/></div>
+            <div class="field"><label for="style">Gaya visual</label><select id="style"><option>Ilustrasi 3D cute pastel</option><option>Kawaii dan ramah anak</option><option>Flat vector minimalis</option><option>Realistis edukatif</option><option>Montessori sederhana</option><option>Formal dan profesional</option><option>Sesuaikan dengan topik</option></select></div>
+          </div>
+          <div class="field"><label for="goal">Tujuan pembelajaran</label><textarea id="goal" placeholder="Contoh: Anak mampu mengenali dan menyebutkan huruf hijaiyah dengan benar."></textarea></div>
+          <div class="field"><label for="platform">Format / platform hasil</label><select id="platform"><option>Website interaktif</option><option>Presentasi / slide interaktif</option><option>Canva</option><option>Google Flow / video AI</option><option>PDF printable</option><option>HTML interaktif</option><option>Fleksibel, rekomendasikan yang cocok</option></select></div>
+          <div class="divider"></div>
+          <h3 class="subheading">Struktur Halaman</h3>
+          <div class="two">
+            <div class="field"><label for="materialPages">Jumlah halaman materi</label><input id="materialPages" type="number" min="1" max="100" value="5"/></div>
+            <div class="field"><label for="quizPages">Jumlah halaman kuis</label><input id="quizPages" type="number" min="0" max="100" value="2"/></div>
+          </div>
+          <div class="field"><span class="field-label">Pilih bagian yang ingin disertakan</span>
+            <div class="checks" id="structureChecks">
+              <label class="check"><input type="checkbox" value="Cover" checked/>Cover</label>
+              <label class="check"><input type="checkbox" value="Navigasi" checked/>Navigasi</label>
+              <label class="check"><input type="checkbox" value="Tujuan Pembelajaran" checked/>Tujuan Pembelajaran</label>
+              <label class="check"><input type="checkbox" value="Apersepsi" checked/>Apersepsi</label>
+              <label class="check"><input type="checkbox" value="Video Pembelajaran"/>Video Pembelajaran</label>
+              <label class="check"><input type="checkbox" value="Rangkuman" checked/>Rangkuman</label>
+              <label class="check"><input type="checkbox" value="Kuis + Peta + Respon" checked/>Kuis + Peta + Respon</label>
+              <label class="check"><input type="checkbox" value="Penutup" checked/>Penutup</label>
+              <label class="check"><input type="checkbox" value="Berbagai tombol navigasi" checked/>Berbagai tombol navigasi</label>
+              <label class="check"><input type="checkbox" value="Halaman tambahan"/>Halaman tambahan</label>
+            </div>
+          </div>
+          <div class="field" id="extraPagesWrap" hidden><label for="extraPages">Halaman tambahan yang diinginkan</label><input id="extraPages" placeholder="Contoh: glosarium, daftar pustaka, sertifikat"/></div>
+          <div class="field"><label for="notes">Instruksi tambahan (opsional)</label><textarea id="notes" placeholder="Contoh: gunakan bahasa Indonesia sederhana, tombol bisa diklik, jawaban kuis menampilkan umpan balik."></textarea></div>
+          <div class="actions"><button class="btn btn-primary" type="submit" id="generateBtn">✨ Buat Prompt dengan AI</button><button class="btn btn-outline" type="button" id="resetBtn">Reset</button></div>
+          <div class="status" id="status" role="status"></div>
+        </form>
+      </div>
+      <div class="panel" id="resultPanel">
+        <div class="panel-title"><div class="tool-ico">✧</div><div><h2>Hasil Prompt</h2><p>Prompt yang dibuat akan muncul di sini.</p></div></div>
+        <div class="output empty" id="output"><div class="empty-inner"><span>✧</span><b>Prompt kamu belum dibuat</b><small>Isi formulir, lalu tekan “Buat Prompt dengan AI”.</small></div></div>
+        <div class="actions"><button class="btn btn-secondary" id="copyBtn" type="button">▣ Salin Prompt</button><button class="btn btn-outline" id="redoBtn" type="button">↻ Buat Ulang</button></div>
+        <p class="hint">Catatan: hasil AI memerlukan konfigurasi fungsi Netlify dan API key. Jika belum diatur, website akan menampilkan petunjuk konfigurasi, bukan hasil AI palsu.</p>
+      </div>
+    </section>
+    <div class="footer">© <span id="year"></span> Zanira Digital · Zanira EduAI · Dibuat untuk mendukung kreativitas edukasi</div>
+  </main>
+</div>
+<script>
+  const $ = (id) => document.getElementById(id);
+  let currentTool = "Media Belajar Interaktif";
+  let lastPrompt = "";
+  const toolMeta = {
+    "Media Belajar Interaktif": ["🪄","purple","Buat materi interaktif dengan struktur halaman, navigasi, dan kuis."],
+    "Game Edukasi": ["🎮","pink","Rancang permainan belajar sesuai usia dan tujuan pembelajaran."],
+    "Video Animasi Edukasi": ["🎬","teal","Susun naskah, karakter, dan adegan video animasi edukatif."],
+    "Buku Dongeng": ["📚","orange","Buat dongeng anak yang menarik dengan pesan moral."],
+    "Lembar Aktivitas": ["✏️","green","Rancang worksheet atau lembar aktivitas sesuai usia."],
+    "Flashcard": ["🃏","blue","Buat kartu belajar visual dengan isi ringkas."],
+    "Poster / Infografis": ["🖼️","yellow","Susun poster edukasi yang jelas dan menarik."],
+    "Prompt Gambar AI": ["✨","peach","Buat prompt ilustrasi AI untuk media belajar anak."]
+  };
+  function chooseTool(name) {
+    currentTool = name;
+    document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("active", b.dataset.tool === name || (!b.dataset.tool && b.dataset.target === "beranda" && name === "Media Belajar Interaktif")));
+    $("builderHeading").textContent = name;
+    const meta = toolMeta[name] || toolMeta["Media Belajar Interaktif"];
+    document.querySelector("#builder .section-head");
+    document.querySelector(".panel-title .tool-ico").textContent = meta[0];
+    $("builder").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  document.querySelectorAll("[data-tool]").forEach(b => b.addEventListener("click", () => chooseTool(b.dataset.tool)));
+  $("startBtn").addEventListener("click", () => $("builder").scrollIntoView({behavior:"smooth"}));
+  $("menuBtn").addEventListener("click", () => $("app").classList.toggle("aside-open"));
+  document.querySelectorAll(".nav-item").forEach(b => { if (b.dataset.tool) b.addEventListener("click", () => $("app").classList.remove("aside-open")); });
+  $("howBtn").addEventListener("click", () => alert("1. Pilih alat kreatif.\\n2. Isi topik, usia, kurikulum, dan struktur halaman.\\n3. Tekan Buat Prompt dengan AI.\\n4. Salin hasilnya untuk digunakan di alat AI pilihanmu.\\n\\nAgar AI aktif, tambahkan OPENAI_API_KEY pada Environment Variables di Netlify."));
+  $("curriculum").addEventListener("change", () => $("customCurriculumWrap").hidden = $("curriculum").value !== "Lainnya (tulis sendiri)");
+  $("structureChecks").addEventListener("change", () => $("extraPagesWrap").hidden = ![...$("structureChecks").querySelectorAll("input:checked")].some(x => x.value === "Halaman tambahan"));
+  function formData() {
+    const curriculum = $("curriculum").value === "Lainnya (tulis sendiri)" ? ($("customCurriculum").value.trim() || "Kurikulum ditentukan pengguna") : $("curriculum").value;
+    return {
+      tool: currentTool, topic: $("topic").value.trim(), age: $("age").value, curriculum,
+      subject: $("subject").value.trim() || "Sesuai topik", style: $("style").value,
+      goal: $("goal").value.trim() || "Rumuskan tujuan pembelajaran yang terukur dan sesuai usia",
+      platform: $("platform").value, materialPages: Number($("materialPages").value || 1),
+      quizPages: Number($("quizPages").value || 0),
+      structure: [...$("structureChecks").querySelectorAll("input:checked")].map(x => x.value),
+      extraPages: $("extraPages").value.trim(), notes: $("notes").value.trim()
+    };
+  }
+  function localPrompt(d) {
+    return `PERAN\\nKamu adalah perancang media pembelajaran dan instructional designer yang berpengalaman membuat materi sesuai usia.\\n\\nTUGAS\\nRancang ${d.tool} bertopik “${d.topic}”.\\n\\nKONTEKS PEMBELAJARAN\\n- Target usia: ${d.age}\\n- Kurikulum/pendekatan: ${d.curriculum}\\n- Bidang: ${d.subject}\\n- Tujuan: ${d.goal}\\n- Format/platform: ${d.platform}\\n- Gaya visual: ${d.style}\\n\\nSTRUKTUR HALAMAN\\n- Jumlah halaman materi: ${d.materialPages}\\n- Jumlah halaman kuis: ${d.quizPages}\\n- Bagian yang dipilih: ${d.structure.length ? d.structure.join(", ") : "Susun struktur yang paling sesuai"}\\n${d.extraPages ? "- Halaman tambahan: " + d.extraPages + "\\n" : ""}\\nPETUNJUK HASIL\\n1. Buat rancangan yang runtut, lengkap, dan sesuai usia serta tujuan pembelajaran.\\n2. Jelaskan isi setiap halaman secara spesifik; jangan hanya memberi judul.\\n3. Pastikan materi akurat, gunakan bahasa Indonesia yang jelas, dan berikan contoh yang sesuai.\\n4. Jika ada kuis, sertakan pertanyaan, pilihan jawaban bila sesuai, kunci jawaban, serta umpan balik untuk jawaban benar dan salah.\\n5. Jika format interaktif, uraikan fungsi tombol, navigasi, alur pengguna, dan respons setiap interaksi.\\n6. Terapkan gaya visual yang konsisten dan ramah untuk target usia.\\n7. Jangan mengarang standar kurikulum yang tidak diketahui; tandai bagian yang perlu verifikasi bila perlu.\\n${d.notes ? "\\nINSTRUKSI TAMBAHAN\\n" + d.notes : ""}`;
+  }
+  function setStatus(message, type="ok") { const s=$("status");s.textContent=message;s.className="status show "+type; }
+  function setOutput(text, empty=false) { $("output").textContent=text; $("output").classList.toggle("empty",empty); if(empty) $("output").innerHTML='<div class="empty-inner"><span>✧</span><b>Prompt kamu belum dibuat</b><small>Isi formulir, lalu tekan “Buat Prompt dengan AI”.</small></div>'; }
+  async function generate() {
+    const d = formData();
+    if (!d.topic || !d.age) { setStatus("Isi topik media dan target usia terlebih dahulu.", "error"); return; }
+    if (d.materialPages < 1 || d.quizPages < 0 || d.materialPages > 100 || d.quizPages > 100) { setStatus("Jumlah halaman harus 0–100, dan halaman materi minimal 1.", "error"); return; }
+    const btn=$("generateBtn");btn.disabled=true;btn.textContent="⏳ Sedang membuat...";
+    setStatus("Menghubungi AI untuk menyusun hasil. Tunggu sebentar…","ok");
+    try {
+      const res = await fetch("/.netlify/functions/generate", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});
+      const data = await res.json().catch(()=>({}));
+      if (!res.ok) throw new Error(data.error || "AI belum bisa dijalankan. Periksa konfigurasi Netlify.");
+      lastPrompt = data.result || "";
+      if (!lastPrompt) throw new Error("AI tidak mengembalikan teks. Coba lagi.");
+      setOutput(lastPrompt);
+      setStatus("Prompt berhasil dibuat. Kamu bisa menyalinnya.", "ok");
+    } catch (err) {
+      lastPrompt = localPrompt(d);
+      setOutput(lastPrompt);
+      setStatus("Mode prompt dasar ditampilkan. AI otomatis belum tersambung atau konfigurasi belum lengkap. " + err.message, "error");
+    } finally {btn.disabled=false;btn.textContent="✨ Buat Prompt dengan AI";}
+  }
+  $("promptForm").addEventListener("submit", e => {e.preventDefault();generate();});
+  $("copyBtn").addEventListener("click", async () => { if(!lastPrompt){setStatus("Buat prompt terlebih dahulu sebelum menyalin.","error");return;} try{await navigator.clipboard.writeText(lastPrompt);setStatus("Prompt berhasil disalin ke clipboard.","ok");}catch(e){setStatus("Salin manual: tekan lama teks hasil prompt lalu pilih Salin.","error");}});
+  $("redoBtn").addEventListener("click", generate);
+  $("resetBtn").addEventListener("click", () => { $("promptForm").reset(); $("customCurriculumWrap").hidden=true; $("extraPagesWrap").hidden=true;lastPrompt="";setOutput("",true);setStatus("Formulir berhasil direset.","ok"); });
+  $("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
